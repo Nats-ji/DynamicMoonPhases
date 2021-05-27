@@ -1,0 +1,22 @@
+set_languages("cxx20")
+set_arch("x64")
+add_rules("mode.debug", "mode.release")
+
+add_defines("UNICODE")
+
+target("DynamicMoonPhases")
+    set_kind("shared")
+    set_filename("dynamic_moon_phases.asi")
+    set_pcxxheader("src/pch.h")
+    add_files("src/**.cpp")
+    add_headerfiles("src/**.h")
+    add_includedirs("src/")
+    on_install(function (target)
+        os.cp(target:targetfile(), "C:/Program Files (x86)/Steam/steamapps/common/Cyberpunk 2077/bin/x64/plugins") -- My game path
+    end)
+    on_package(function (target)
+        os.mkdir("package/bin/x64/plugins/dynamic_moon_phases")
+		os.cp("archive/", "package/bin/x64/plugins/dynamic_moon_phases")
+		os.cp("LICENSE", "package/bin/x64/plugins/dynamic_moon_phases")
+		os.cp(target:targetfile(), "package/bin/x64/plugins/")
+    end)
